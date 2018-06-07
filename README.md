@@ -8,7 +8,7 @@ var allPage = 10    //总页数
 var perNum = 7      //页码偏移量
 var curPage = 2     //当前页码
 var url = "/manage/msgList"
-pager := models.NewPage(allPage,curPage,perNum,url)
+pager := NewPage(allPage,curPage,perNum,url)
 
 pagelist := pager.OutPut()
 ```
