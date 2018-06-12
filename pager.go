@@ -1,15 +1,15 @@
-package pager
+package models
 
 import (
-	"strconv"
 	"bytes"
+	"fmt"
 )
 
 
 type Pager struct {
 	AllPage int		//总页码数
 	CurPage int		//当前页码
-	Pernum	int 	//页码偏移量
+	Pernum	int 		//页码偏移量
 	Url string
 }
 
@@ -23,9 +23,9 @@ func NewPage(allPage,curPage,perNum int,url string)*Pager{
 }
 
 /**
-	当前仅有一种分页样式
+	分页样式1
  */
-func (this *Pager)OutPut()string{
+func (this *Pager)AllLink()string{
 	var pageStr = bytes.Buffer{}
 	//首页
 	pageStr.WriteString(this.firstPage())
@@ -65,23 +65,25 @@ func (this *Pager)OutPut()string{
 	return pageStr.String()
 }
 
+
 /*
 	首页
  */
 func (this *Pager)firstPage()string{
 	if this.CurPage == 1{
-		return "<a href='#'>首页</a>"
+		return "<a>首页</a>"
 	}
 	return "<a href='"+this.Url+"/1'>首页</a>"
+	return fmt.Sprintf("<a href='%s/1'>首页</a>",this.Url)
 }
 /*
 	尾页
  */
 func (this *Pager)endPage()string{
 	if this.CurPage == this.AllPage{
-		return "<a href='#'>尾页</a>"
+		return "<a>尾页</a>"
 	}
-	return "<a href='" + this.Url + "/"+strconv.Itoa(this.AllPage)+"'>尾页</a>"
+	return fmt.Sprintf("<a href='%s/%d'>尾页</a>",this.Url,this.AllPage)
 }
 
 /*
@@ -89,9 +91,9 @@ func (this *Pager)endPage()string{
  */
 func (this *Pager)prevPage()string{
 	if this.CurPage <= 1{
-		return "<a href='#'>上一页</a>"
+		return "<a>上一页</a>"
 	}
-	return "<a href='" + this.Url + "/"+strconv.Itoa(this.CurPage-1)+"'>上一页</a>"
+	return fmt.Sprintf("<a href='%s/%d'>上一页</a>",this.Url,this.CurPage - 1)
 }
 
 /*
@@ -99,9 +101,9 @@ func (this *Pager)prevPage()string{
  */
 func (this *Pager)nextPage()string{
 	if this.CurPage >= this.AllPage{
-		return "<a href='#'>下一页</a>"
+		return "<a>下一页</a>"
 	}
-	return "<a href='" + this.Url + "/"+strconv.Itoa(this.CurPage+1)+"'>下一页</a>"
+	return fmt.Sprintf("<a href='%s/%d'>下一页</a>",this.Url,this.CurPage + 1)
 }
 
 /*
@@ -109,7 +111,7 @@ func (this *Pager)nextPage()string{
  */
 func (this *Pager)nbPage(nb int)string{
 	if nb == this.CurPage{
-		return 	"<a class='current' href='" + this.Url + "/"+strconv.Itoa(nb)+"'>"+strconv.Itoa(nb)+"</a>"
+		return fmt.Sprintf("<a class='current' href='%s/%d'>%d</a>",this.Url,nb,nb)
 	}
-	return "<a href='" + this.Url + "/"+strconv.Itoa(nb)+"'>"+strconv.Itoa(nb)+"</a>"
+	return fmt.Sprintf("<a href='%s/%d'>%d</a>",this.Url,nb,nb)
 }
