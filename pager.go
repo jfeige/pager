@@ -103,6 +103,21 @@ func (this *Pager) PageLink() string {
 	return pageStr.String()
 }
 
+/**
+分页样式3 上一页 当前页码 下一页
+*/
+func (this *Pager) PageLinkT() string {
+	var pageStr = bytes.Buffer{}
+	//上一页
+	pageStr.WriteString(this.prevPage())
+	//当前页
+	pageStr.WriteString(this.nbPage(this.CurPage))
+	//下一页
+	pageStr.WriteString(this.nextPage())
+
+	return pageStr.String()
+}
+
 /*
 	首页
 */
